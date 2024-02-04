@@ -22,6 +22,15 @@
     <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
     <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
 </div>
+  <!-- Fetch Agent and Create New Agent Buttons -->
+<div class="mb-4">
+    <button id="fetch-agent-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Fetch Agent
+    </button>
+    <button id="create-agent-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Create New Agent
+    </button>
+</div>
 
 <!-- Fetch Projects Button -->
 <div class="mb-4">
@@ -350,6 +359,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // Closing the success modal
     document.getElementById('close-success-modal').addEventListener('click', () => {
         document.getElementById('success-modal').classList.add('hidden');
+    });
+    onst fetchAgentBtn = document.getElementById('fetch-agent-btn');
+    const createAgentBtn = document.getElementById('create-agent-btn');
+    const agentPromptDiv = document.getElementById('agent-prompt');
+
+    // Function to show or hide form sections based on action
+    function toggleFormSections(showFetchAgent) {
+        // Define all the sections to toggle
+        const sectionsToToggle = [
+            document.getElementById('example-responses'),
+            document.getElementById('qualifying-questions'),
+            document.getElementById('personality'),
+            document.getElementById('call-purpose'),
+            document.getElementById('output-rules-section'),
+            document.getElementById('action-select'),
+            document.getElementById('disconnect-message')
+        ];
+
+        // Loop over all sections and toggle their display
+        sectionsToToggle.forEach(section => {
+            section.style.display = showFetchAgent ? 'none' : '';
+        });
+
+        // Specifically handle the agent prompt visibility
+        agentPromptDiv.style.display = showFetchAgent ? '' : 'none';
+    }
+
+    // Event listener for the Fetch Agent button
+    fetchAgentBtn.addEventListener('click', () => {
+        toggleFormSections(true);
+        // Additional code to fetch agent details...
+    });
+
+    // Event listener for the Create New Agent button
+    createAgentBtn.addEventListener('click', () => {
+        toggleFormSections(false);
+        // Clear form or set defaults for creating a new agent...
     });
 });
 // This function handles the form submission
