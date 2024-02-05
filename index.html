@@ -48,7 +48,6 @@
         </div>
     </div>
 </div>
-
 <script>
     let agentsData = [];
 
@@ -58,7 +57,8 @@
         fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${apiKey}`
+                'Authorization': `Bearer ${apiKey}`,
+                dburl: ""
             }
         })
         .then(response => response.json())
@@ -81,7 +81,8 @@
         fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${apiKey}`
+                'Authorization': `Bearer ${apiKey}`,
+                dburl" ""
             }
         })
         .then(response => response.json())
@@ -121,77 +122,6 @@
         }
     });
 </script>
-<script>
-    let agentsData = [];
 
-    // Fetch Projects Function
-    function fetchProjects(apiKey) {
-        const apiUrl = 'https://prod.api.vodex.ai/api/v1/project';
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const projectDropdown = document.getElementById('project-dropdown');
-            projectDropdown.innerHTML = '<option value="">Select a project</option>';
-            data.data.forEach(project => {
-                const option = document.createElement('option');
-                option.value = project._id;
-                option.textContent = project.projectName;
-                projectDropdown.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching projects:', error));
-    }
-
-    // Fetch Agent Settings Function
-    function fetchAgentSettings(projectId, apiKey) {
-        const apiUrl = `https://prod.api.vodex.ai/api/v1/agent-setting/${projectId}`;
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            agentsData = data.data; // Assuming the data contains an array of agents
-            const agentDropdown = document.getElementById('agent-dropdown');
-            agentDropdown.innerHTML = '<option value="">Select an agent</option>';
-            agentsData.forEach(agent => {
-                const option = document.createElement('option');
-                option.value = agent._id;
-                option.textContent = agent.agentName; // Assuming 'agentName' is the correct property
-                agentDropdown.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching agent settings:', error));
-    }
-
-    document.getElementById('fetch-projects').addEventListener('click', function() {
-        const apiKey = document.getElementById('api-key-input').value;
-        fetchProjects(apiKey);
-    });
-
-    document.getElementById('project-dropdown').addEventListener('change', function() {
-        const projectId = this.value;
-        const apiKey = document.getElementById('api-key-input').value;
-        if (projectId && apiKey) {
-            fetchAgentSettings(projectId, apiKey);
-        }
-    });
-
-    document.getElementById('agent-dropdown').addEventListener('change', function() {
-        const selectedAgentId = this.value;
-        const selectedAgentData = agentsData.find(agent => agent._id === selectedAgentId);
-        if (selectedAgentData) {
-            // Assuming 'context' is the property for the agent prompt
-            document.getElementById('agent-prompt').value = selectedAgentData.context || "No prompt available"; // Adjust according to your data structure
-        }
-    });
-</script>
 </body>
 </html>
